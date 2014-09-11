@@ -1927,8 +1927,6 @@ int mdss_mdp_ctl_stop(struct mdss_mdp_ctl *ctl, int power_state)
 
 	if (sctl && sctl->stop_fnc) {
 		ret = sctl->stop_fnc(sctl, power_state);
-
-		mdss_mdp_ctl_split_display_enable(0, ctl, sctl);
 	}
 	if (ret) {
 		pr_warn("error powering off intf ctl=%d\n", ctl->num);
@@ -1939,6 +1937,9 @@ int mdss_mdp_ctl_stop(struct mdss_mdp_ctl *ctl, int power_state)
 		pr_debug("panel is not off, leaving ctl power on\n");
 		goto end;
 	}
+
+	if (sctl)
+		mdss_mdp_ctl_split_display_enable(0, ctl, sctl);
 
 	mdss_mdp_ctl_write(ctl, MDSS_MDP_REG_CTL_TOP, 0);
 	if (sctl)
