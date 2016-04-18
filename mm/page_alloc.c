@@ -6168,6 +6168,9 @@ static struct trace_print_flags pageflag_names[] = {
 #endif
 	{1UL << PG_readahead,           "PG_readahead"  },
 	{-1UL,				NULL		},
+#ifdef CONFIG_ZCACHE
+	{1UL << PG_was_active,           "PG_was_active"  },
+#endif
 };
 
 static void dump_page_flags(unsigned long flags)
