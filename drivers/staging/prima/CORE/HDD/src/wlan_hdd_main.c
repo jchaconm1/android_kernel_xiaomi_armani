@@ -152,6 +152,8 @@ static int   enable_11d = -1;
 static int   enable_dfs_chan_scan = -1;
 static int   gbcnMissRate = -1;
 
+static unsigned char mac[6]; //XIAOMI MAC CRAP
+
 #ifndef MODULE
 static int wlan_hdd_inited;
 #endif
@@ -8965,6 +8967,7 @@ static VOS_STATUS hdd_update_config_from_nv(hdd_context_t* pHddCtx)
 
    if (itemIsValid == VOS_TRUE) 
    {
+#if 0 //XIAOMI MAC CRAP
         hddLog(VOS_TRACE_LEVEL_INFO_HIGH," Reading the Macaddress from NV");
       status = vos_nv_readMultiMacAddress((v_U8_t *)&macFromNV[0].bytes[0],
                                           VOS_MAX_CONCURRENCY_PERSONA);
@@ -8975,6 +8978,10 @@ static VOS_STATUS hdd_update_config_from_nv(hdd_context_t* pHddCtx)
          hddLog(VOS_TRACE_LEVEL_ERROR," vos_nv_readMacAddress() failed");
             return VOS_STATUS_E_FAILURE;
         }
+#else
+      for (macLoop = 0; macLoop < VOS_MAC_ADDR_SIZE; macLoop++)
+        macFromNV[0].bytes[macLoop] = mac[macLoop];
+#endif
 
       /* If first MAC is not valid, treat all others are not valid
        * Then all MACs will be got from ini file */
@@ -12211,3 +12218,6 @@ module_param(enable_11d, int,
 
 module_param(country_code, charp,
              S_IRUSR | S_IRGRP | S_IROTH);
+
+module_param_array(mac, byte, NULL, //XIAOMI MAC CRAP
+             S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
