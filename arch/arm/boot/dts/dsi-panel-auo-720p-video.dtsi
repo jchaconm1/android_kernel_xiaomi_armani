@@ -78,5 +78,6 @@
 		qcom,mdss-dsi-min-refresh-rate = <45>;
 		qcom,mdss-pan-physical-width-dimension = <58>;
 		qcom,mdss-pan-physical-height-dimension = <103>;
+		qcom,ulps-enabled;
 	};
 };
